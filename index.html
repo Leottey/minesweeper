@@ -22,7 +22,7 @@
             case "link":
                 extension = "css";
                 break;
-            default: "out";
+            default: return false;
         }
         for (let i = 0; i < sources.length; i++) {
             let script = document.createElement(type);
