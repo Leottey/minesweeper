@@ -13,7 +13,6 @@ const Engine = function (time_step, update, render) {
 
     // * Run function
     this.run = function (time_stamp) { // on cycle of the game loop
-
         this.accumulated_time += time_stamp - this.time;
         this.time = time_stamp;
 
@@ -25,7 +24,6 @@ const Engine = function (time_step, update, render) {
         while (this.accumulated_time >= this.time_step) {
 
             this.accumulated_time -= this.time_step;
-
             this.update(time_stamp);
 
             this.updated = true; // if the game is updated, redraw it again
@@ -49,8 +47,11 @@ Engine.prototype = {
     start: function () {
 
         this.accumulated_time = this.time_step;
+
         this.time = window.performance.now();
+
         this.animation_frame_request = window.requestAnimationFrame(this.handleRun);
+
     },
 
     stop: function () {

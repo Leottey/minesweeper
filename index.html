@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Minesweeper</title>
+    <script>
+        var game;
+    </script>
 
 </head>
 
 <body>
-    <canvas id="game" height="300px" width="640px">
+    <canvas id="game" height="800" width="600">
     </canvas>
 </body>
+
 <script>
     const addFiles = function (type = "", dir = "", sources = []) {
         let extension;
@@ -34,7 +38,7 @@
         }
 
     }
-    let scripts = ["controller", "game", "engine", "display", "main"];
+    let scripts = ["main", "game", "engine", "display"];
     addFiles("script", "js", scripts);
 
 
