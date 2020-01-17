@@ -70,7 +70,6 @@ window.addEventListener("load", function (event) {
         mousePos.click = "left";
 
         // * Game update left click
-        update();
     })
     document.getElementById("game").addEventListener("contextmenu", function (e) {
         e.preventDefault();
@@ -79,8 +78,7 @@ window.addEventListener("load", function (event) {
         mousePos.y = pos[1];
         mousePos.click = "right";
 
-        // * Game update right click, flag
-        update()
+        // * Game update right click, flag    
     })
 
 
