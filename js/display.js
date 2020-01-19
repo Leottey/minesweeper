@@ -25,6 +25,8 @@ const Display = function (canvas) {
                 // * Cells outline
                 this.buffer.strokeStyle = "#000"
                 this.buffer.strokeRect(px, py, game.tileW, game.tileH)
+                this.buffer.textAlign = "center";
+                this.buffer.font = "16px sans-serif";
 
                 switch (game.grid[r][c].currentState) {
                     case "hidden":
@@ -38,8 +40,6 @@ const Display = function (canvas) {
                         this.buffer.fillRect(px, py, game.tileW, game.tileH);
 
                         this.buffer.fillStyle = "hsla(233, 23%, 3%, 1)";
-                        this.buffer.textAlign = "center";
-                        this.buffer.font = "20px sans-serif";
                         this.buffer.fillText("F", px + (game.tileW / 2), py + (game.tileH / 1.5));
                         break;
                     case "visible":
@@ -51,16 +51,12 @@ const Display = function (canvas) {
 
                             // * Paint visible -> danger
                             this.buffer.fillStyle = "hsla(233, 23%, 3%, 1)";
-                            this.buffer.textAlign = "center";
-                            this.buffer.font = "20px sans-serif";
                             this.buffer.fillText(game.grid[r][c].danger, px + (game.tileW / 2), py + (game.tileH / 1.5));
 
                         } else if (game.grid[r][c].hasMine == true) {
 
                             // * Paint visible -> mines
                             this.buffer.fillStyle = "hsla(233, 23%, 3%, 1)";
-                            this.buffer.textAlign = "center";
-                            this.buffer.font = "20px sans-serif";
                             this.buffer.fillText("F", px + (game.tileW / 2), py + (game.tileH / 1.5));
 
                         }

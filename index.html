@@ -5,33 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Minesweeper</title>
-    <script>
-        var game;
-    </script>
 
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/Normalize.css">
 </head>
 
 <body>
-    <canvas id="game" height="800" width="600">
-    </canvas>
+    <header id="navbar">
+        <div id="logo"><a class="transition" href="../">Leottey</a></div>
+        <nav>
+            <ul>
+                <li><a href="https://leottey.github.io/projects/">Projects</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="content">
+        <div>
+            <h1 id="title">Minesweeper</h1>
+            <canvas id="game" height="750" width="480">
+            </canvas>
+        </div>
+    </div>
+
 </body>
 
 <script>
-    const addFiles = function (type = "", dir = "", sources = []) {
-        let extension;
-        switch (type) {
-            case "script":
-                extension = "js";
-                break;
-            case "link":
-                extension = "css";
-                break;
-            default: return false;
-        }
-        for (let i = 0; i < sources.length; i++) {
-            let script = document.createElement(type);
+    const addFiles = function (dir = "", sources = []) {
 
-            let string = dir + "/" + sources[i] + "." + extension;
+        for (let i = 0; i < sources.length; i++) {
+            let script = document.createElement("script");
+
+            let string = dir + "/" + sources[i] + ".js"
 
             script.setAttribute("src", string);
             document.head.appendChild(script);
@@ -39,9 +43,7 @@
 
     }
     let scripts = ["main", "game", "engine", "display"];
-    addFiles("script", "js", scripts);
-
-
+    addFiles("js", scripts);
 </script>
 
 </html>

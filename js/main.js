@@ -82,7 +82,7 @@ window.addEventListener("load", function (event) {
     })
 
 
-    game.start(difficulties.Easy);
+    game.start(difficulties.Hard);
     engine.start();
 
 

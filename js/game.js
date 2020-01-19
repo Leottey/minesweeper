@@ -66,8 +66,8 @@ const Game = function () {
     this.difficulty = {};
     this.offsetX = 0;
     this.offsetY = 0;
-    this.tileW = 40;
-    this.tileH = 40;
+    this.tileW = 32;
+    this.tileH = 32;
     this.grid = [];
 
     this.getGrid = function () {
