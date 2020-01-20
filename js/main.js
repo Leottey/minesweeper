@@ -93,11 +93,11 @@ window.addEventListener("load", function (event) {
 
         // * Game update right click, flag    
     })
+    display.tile_sheet.addEventListener("load", function (e) {
+        engine.start();
+    }, { once: true })
 
-
-    //game.start(difficulties.Easy);
-    engine.start();
-
+    display.tile_sheet.src = "tiles.png";
 
 
 })

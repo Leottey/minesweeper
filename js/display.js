@@ -7,6 +7,8 @@ const Display = function (canvas) {
     this.buffer.canvas.width = this.context.canvas.width;
     this.buffer.canvas.height = this.context.canvas.height;
 
+    this.tile_sheet = new Image();
+
     this.paint = function (game) {
         // *background
         this.buffer.fillStyle = "hsla(233, 23%, 5%, 1)";
@@ -15,8 +17,6 @@ const Display = function (canvas) {
         this.buffer.fillRect(1, 1, this.buffer.canvas.width - 2, this.buffer.canvas.height - 2);
         this.buffer.textAlign = "center";
         this.buffer.font = "16px sans-serif";
-        let tiles = new Image();
-        tiles.src = "../tiles.png";
 
         //this.buffer.fillRect(offsetX, offsetY,(difficulty.rows * tileW), (difficulty.columns * tileH));
 
@@ -29,7 +29,7 @@ const Display = function (canvas) {
         // * Reset button
         this.buffer.fillStyle = "white";
         this.buffer.fillRect(game.menuTop.x + (game.menuTop.width / 2) - 20, game.menuTop.y + (game.menuTop.height / 2) - 20, 40, 40);
-        this.buffer.drawImage(tiles, 64, 0, 40, 40, game.menuTop.x + (game.menuTop.width / 2) - 20, game.menuTop.y + (game.menuTop.height / 2) - 20, 40, 40);
+        this.buffer.drawImage(this.tile_sheet, 64, 0, 40, 40, game.menuTop.x + (game.menuTop.width / 2) - 20, game.menuTop.y + (game.menuTop.height / 2) - 20, 40, 40);
 
         this.buffer.fillStyle = "hsla(37, 89%, 52%, 1)";
         // * Top menu text
@@ -75,7 +75,7 @@ const Display = function (canvas) {
                         //this.buffer.fillStyle = "hsla(233, 23%, 3%, 1)";
                         //this.buffer.fillRect(px, py, game.tileW, game.tileH);
 
-                        this.buffer.drawImage(tiles, 0, 0, 32, 32, px, py, 32, 32)
+                        this.buffer.drawImage(this.tile_sheet, 0, 0, 32, 32, px, py, 32, 32)
                         break;
                     case "flag":
                         // * Paint Flag
@@ -83,14 +83,14 @@ const Display = function (canvas) {
                         //this.buffer.fillStyle = "hsla(37, 89%, 52%, 1)";
                         //this.buffer.fillText("F", px + (game.tileW / 2), py + (game.tileH / 1.5));
 
-                        this.buffer.drawImage(tiles, 0, 32, 32, 32, px, py, 32, 32)
+                        this.buffer.drawImage(this.tile_sheet, 0, 32, 32, 32, px, py, 32, 32)
                         break;
                     case "visible":
                         // * Paint visible
                         //this.buffer.fillStyle = "hsla(37, 89%, 52%, 1)";
                         //this.buffer.fillRect(px, py, game.tileW, game.tileH);
 
-                        this.buffer.drawImage(tiles, 32, 0, 32, 32, px, py, 32, 32)
+                        this.buffer.drawImage(this.tile_sheet, 32, 0, 32, 32, px, py, 32, 32)
 
                         if (game.grid[r][c].hasMine == true) {
 
@@ -98,7 +98,7 @@ const Display = function (canvas) {
                             //this.buffer.fillStyle = "hsla(233, 23%, 3%, 1)";
                             //this.buffer.fillText("M", px + (game.tileW / 2), py + (game.tileH / 1.5));
 
-                            this.buffer.drawImage(tiles, 32, 32, 32, 32, px, py, 32, 32)
+                            this.buffer.drawImage(this.tile_sheet, 32, 32, 32, 32, px, py, 32, 32)
                         } else if (game.grid[r][c].danger != 0) {
 
                             // * Paint visible -> danger
