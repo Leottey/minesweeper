@@ -122,7 +122,6 @@ const Game = function () {
         if (mouse.x > resetX && mouse.x < resetX + 40 && mouse.y > resetY && mouse.y < resetY + 40) {
             this.start(this.difficulty);
             this.state = "playing";
-            this.minesLeft = 0;
         }
 
 
