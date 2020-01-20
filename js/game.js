@@ -10,16 +10,6 @@ const Tile = function (x, y) {
 }
 Tile.prototype = {
     constructor: Tile,
-    flag: function () {
-        switch (this.currentState) {
-            case "hidden":
-                this.currentState = "flag";
-                break;
-            case "flag":
-                this.currentState = "hidden";
-                break;
-        }
-    },
     seeDanger: function (grid) {
         for (let r = this.x - 1; r <= this.x + 1; r++) {
             for (let c = this.y - 1; c <= this.y + 1; c++) {
@@ -64,11 +54,25 @@ const Game = function () {
 
     this.state = "playing";
     this.difficulty = {};
+    this.minesLeft = 0;
     this.offsetX = 0;
     this.offsetY = 0;
     this.tileW = 32;
     this.tileH = 32;
+    this.menuTop = {
+        x: 35,
+        y: 35,
+        width: 480,
+        height: 64
+    };
+    this.menuBottom = {
+        x: 35,
+        y: 645,
+        width: 480,
+        height: 64
+    };
     this.grid = [];
+    this.revealed = 0;
 
     this.getGrid = function () {
         let grid = [],
@@ -110,6 +114,17 @@ const Game = function () {
 
     }
     this.update = function (mouse, button) {
+        let numberTiles = 0;
+
+        // * Reset button
+        let resetX = this.menuTop.x + (this.menuTop.width / 2) - 20;
+        let resetY = this.menuTop.y + (this.menuTop.height / 2) - 20;
+        if (mouse.x > resetX && mouse.x < resetX + 40 && mouse.y > resetY && mouse.y < resetY + 40) {
+            this.start(this.difficulty);
+            this.state = "playing";
+            this.minesLeft = 0;
+        }
+
 
         for (let r = 0; r < this.grid.length; r++) {
             for (let c = 0; c < this.grid[r].length; c++) {
@@ -118,49 +133,79 @@ const Game = function () {
                 let tileX = (this.grid[r][c].x * this.tileW) + this.offsetX;
                 let tileY = (this.grid[r][c].y * this.tileH) + this.offsetY;
 
-                if (mouse.x > tileX && mouse.x < tileX + this.tileW
-                    && mouse.y > tileY && mouse.y < tileY + this.tileH) {
+                let selectedTile = this.grid[r][c];
 
-                    // * Selected Tile
-                    //console.log(this.grid[r][c])
+                if (selectedTile.currentState == "visible" && selectedTile.hasMine == false) {
+                    numberTiles++
+                    this.revealed = numberTiles;
+                }
 
-                    // * Left-Right click handler
-                    switch (button) {
-                        case "left":
-                            if (this.grid[r][c].hasMine == false
-                                && this.grid[r][c].currentState == "hidden") {
-                                // console.log(this.grid[r][c])
-                                // It's possible that the cell doesn't reveal if it's surrounded by
-                                // mines or danger cells if not reveal earlier
-                                this.grid[r][c].currentState = "visible"
-                                this.grid[r][c].revealNeighbours(this.grid);
+                if (this.revealed == (this.difficulty.rows * this.difficulty.columns) - this.difficulty.mines) {
+                    this.state = "won";
+                }
 
-                            } else if (this.grid[r][c].hasMine == true) {
-                                // console.log(this.grid[r][c])
-                                console.log("You lost")
-                                this.gameOver()
+                if (this.state == "playing") {
+                    if (mouse.x > tileX && mouse.x < tileX + this.tileW
+                        && mouse.y > tileY && mouse.y < tileY + this.tileH) {
 
-                            }
-                            break;
-                        case "right":
-                            this.grid[r][c].flag();
-                            break;
-                    }
+                        // * Selected Tile
+                        //console.log(this.grid[r][c])
 
+                        // * Left-Right click handler
+                        switch (button) {
+                            case "left":
+                                if (selectedTile.hasMine == false
+                                    && selectedTile.currentState == "hidden") {
+                                    // console.log(this.grid[r][c])
+                                    // It's possible that the cell doesn't reveal if it's surrounded by
+                                    // mines or danger cells if not reveal earlier
+                                    selectedTile.currentState = "visible"
+                                    selectedTile.revealNeighbours(this.grid);
+
+                                } else if (selectedTile.hasMine == true) {
+
+                                    this.gameOver()
+
+                                }
+                                break;
+                            case "right":
+                                switch (selectedTile.currentState) {
+                                    case "hidden":
+                                        selectedTile.currentState = "flag";
+                                        this.minesLeft--;
+                                        break;
+                                    case "flag":
+                                        selectedTile.currentState = "hidden";
+                                        this.minesLeft++;
+                                        break;
+                                }
+                                break;
+                        } // end switch
+                    } //end if
+                } else {
+
+                } //end if == playing
+            } //end inner for
+        }// end for
+
+
+    }; // end function
+    this.gameOver = function () {
+        this.state = "lost";
+        for (let r = 0; r < this.grid.length; r++) {
+            for (let c = 0; c < this.grid[r].length; c++) {
+                if (this.grid[r][c].hasMine == true) {
+                    this.grid[r][c].currentState = "visible";
                 }
             }
         }
-
-
-    };
-    this.gameOver = function () {
-
     }
 }
 Game.prototype = {
     constructor: Game,
     start: function (difficulty) {
         this.difficulty = difficulty;
+        this.minesLeft = difficulty.mines;
         this.getGrid();
         this.placeMines();
         // Calculate margin

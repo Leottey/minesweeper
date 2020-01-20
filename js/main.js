@@ -40,20 +40,33 @@ window.addEventListener("load", function (event) {
         return [x, y]
     }
     var render = function (time_stamp) {
-        display.paint({
-            grid: game.grid,
-            offsetX: game.offsetX,
-            offsetY: game.offsetY,
-            tileW: game.tileW,
-            tileH: game.tileH
-        });
+        display.paint(game);
         display.render();
     }
 
     var update = function (time_stamp) {
         if (mousePos.click != null) {
-            game.update(mousePos, mousePos.click)
+
+
+            let width = game.menuBottom.width / 3;
+            let heigh = game.menuBottom.height;
+            let easy = [game.menuBottom.x, game.menuBottom.y],
+                medium = [game.menuBottom.x + width, game.menuBottom.y],
+                hard = [game.menuBottom.x + (width * 2), game.menuBottom.y];
+
+            if (mousePos.x > easy[0] && mousePos.x < easy[0] + width && mousePos.y > easy[1] && mousePos.y < easy[1] + heigh) {
+                game.start(difficulties.Easy);
+            } else if (mousePos.x > medium[0] && mousePos.x < medium[0] + width && mousePos.y > medium[1] && mousePos.y < medium[1] + heigh) {
+                game.start(difficulties.Medium);
+            } else if (mousePos.x > hard[0] && mousePos.x < hard[0] + width && mousePos.y > hard[1] && mousePos.y < hard[1] + heigh) {
+                game.start(difficulties.Hard);
+            } else {
+                game.update(mousePos, mousePos.click)
+            }
+
             mousePos.click = null;
+        } else {
+            game.update({}, mousePos.click)
         }
     }
 
@@ -82,7 +95,7 @@ window.addEventListener("load", function (event) {
     })
 
 
-    game.start(difficulties.Hard);
+    //game.start(difficulties.Easy);
     engine.start();
 
 
