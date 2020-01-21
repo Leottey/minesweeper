@@ -121,7 +121,6 @@ const Game = function () {
         let resetY = this.menuTop.y + (this.menuTop.height / 2) - 20;
         if (mouse.x > resetX && mouse.x < resetX + 40 && mouse.y > resetY && mouse.y < resetY + 40) {
             this.start(this.difficulty);
-            this.state = "playing";
         }
 
 
@@ -203,6 +202,7 @@ const Game = function () {
 Game.prototype = {
     constructor: Game,
     start: function (difficulty) {
+        this.state = "playing";
         this.difficulty = difficulty;
         this.minesLeft = difficulty.mines;
         this.getGrid();

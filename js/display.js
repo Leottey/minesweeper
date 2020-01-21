@@ -33,16 +33,21 @@ const Display = function (canvas) {
 
         this.buffer.fillStyle = "hsla(37, 89%, 52%, 1)";
         // * Top menu text
-        this.buffer.fillText("Level: " + game.difficulty.name,
-            game.menuTop.x + (game.menuTop.width / 4),
-            game.menuTop.y + (game.menuTop.height / 2.5));
-        this.buffer.fillText("State: " + game.state,
-            game.menuTop.x + (game.menuTop.width / 4),
-            game.menuTop.y + (game.menuTop.height * 2 / 2.5));
-        this.buffer.fillText("Mines: " + game.minesLeft,
-            game.menuTop.x + (game.menuTop.width * 3 / 4),
-            game.menuTop.y + (game.menuTop.height / 1.75));
-
+        if (game.difficulty.name != undefined) {
+            this.buffer.fillText("Level: " + game.difficulty.name,
+                game.menuTop.x + (game.menuTop.width / 4),
+                game.menuTop.y + (game.menuTop.height / 2.5));
+            this.buffer.fillText("State: " + game.state,
+                game.menuTop.x + (game.menuTop.width / 4),
+                game.menuTop.y + (game.menuTop.height * 2 / 2.5));
+            this.buffer.fillText("Mines: " + game.minesLeft,
+                game.menuTop.x + (game.menuTop.width * 3 / 4),
+                game.menuTop.y + (game.menuTop.height / 1.75));
+        } else {
+            this.buffer.fillText("Choose difficulty",
+                game.menuTop.x + (game.menuTop.width / 4),
+                game.menuTop.y + (game.menuTop.height / 1.75));
+        }
 
         // * Bottom menu text
         this.buffer.fillText("Easy",
