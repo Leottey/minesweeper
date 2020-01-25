@@ -162,7 +162,7 @@ const Game = function () {
 
                                 } else if (selectedTile.hasMine == true) {
 
-                                    this.gameOver()
+                                    this.gameOver("lost")
 
                                 }
                                 break;
@@ -180,16 +180,15 @@ const Game = function () {
                                 break;
                         } // end switch
                     } //end if
-                } else {
-
-                } //end if == playing
+                }
+                //end if == playing
             } //end inner for
         }// end for
 
 
     }; // end function
-    this.gameOver = function () {
-        this.state = "lost";
+    this.gameOver = function (state) {
+        this.state = state;
         for (let r = 0; r < this.grid.length; r++) {
             for (let c = 0; c < this.grid[r].length; c++) {
                 if (this.grid[r][c].hasMine == true) {
@@ -203,6 +202,7 @@ Game.prototype = {
     constructor: Game,
     start: function (difficulty) {
         this.state = "playing";
+        this.revealed = 0;
         this.difficulty = difficulty;
         this.minesLeft = difficulty.mines;
         this.getGrid();
